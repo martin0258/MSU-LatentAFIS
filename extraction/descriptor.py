@@ -1,3 +1,4 @@
+from past.builtins import xrange
 import template
 import numpy as np
 import math
@@ -87,9 +88,9 @@ def get_patch_index(patchSize_L, patchSize_H, oriNum, isMinu=1):
         PI2 = 2 * math.pi
     else:
         PI2 = math.pi
-    x = list(xrange(-patchSize_L / 2 + 1, patchSize_L / 2 + 1))
+    x = list(xrange(int(-patchSize_L / 2 + 1), int(patchSize_L / 2 + 1)))
     x = np.array(x)
-    y = list(xrange(-patchSize_H / 2 + 1, patchSize_H / 2 + 1))
+    y = list(xrange(int(-patchSize_H / 2 + 1), int(patchSize_H / 2 + 1)))
     y = np.array(y)
     xv, yv = np.meshgrid(x, y)
     patchIndexV = {}
@@ -197,7 +198,7 @@ if __name__ == '__main__':
     img = cv2.imread(imgfile)
     h, w, c = img.shape
 
-    print img
+    # print(img)
 
     num_minu = len(template.minu_template[0].minutiae)
     patches = extract_patches(template.minu_template[0].minutiae, img, patchIndexV, patch_type=1)
