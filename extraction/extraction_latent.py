@@ -70,7 +70,10 @@ class FeatureExtraction_Latent:
                                          show_minutiae=False, minu_file=None):
         block = False
         block_size = 16
-        img0 = io.imread(img_file, mode='L')  # / 255.0
+
+        # workaround
+        # img0 = io.imread(img_file, mode='L')  # / 255.0
+        img0 = io.imread(img_file, pilmode='L')  # / 255.0
 
         img = img0.copy()
 
@@ -291,7 +294,7 @@ class FeatureExtraction_Latent:
 
             minu_files.sort(key=lambda filename: int(''.join(filter(str.isdigit, filename))))
         for i, img_file in enumerate(img_files):
-            print i, img_file
+            print(i, img_file)
             img_name = os.path.basename(img_file)
             if template_dir is not None:
                 fname = template_dir + os.path.splitext(img_name)[0] + '.dat'
@@ -312,7 +315,7 @@ class FeatureExtraction_Latent:
                                                                                           show_minutiae=False)
 
             stop = timeit.default_timer()
-            print stop - start
+            print(stop - start)
 
             fname = template_dir + os.path.splitext(img_name)[0] + '.dat'
             template.Template2Bin_Byte_TF_C(fname, latent_template, isLatent=True)
@@ -401,8 +404,8 @@ def main_single_image(image_file, template_dir):
     print("Latent query: " + image_file)
     print("Starting feature extraction (single latent)...")
     latent_template, texture_template = LF_Latent.feature_extraction_single_latent(image_file, output_dir=template_dir,
-                                                                                   show_processes=False, minu_file=None,
-                                                                                   show_minutiae=False)
+                                                                                   show_processes=True, minu_file=None,
+                                                                                   show_minutiae=True)
     fname = template_dir + os.path.splitext(os.path.basename(image_file))[0] + '.dat'
     template.Template2Bin_Byte_TF_C(fname, latent_template, isLatent=True)
 
@@ -423,10 +426,16 @@ if __name__ == '__main__':
         template_dir = args.tdir if args.tdir else config['LatentTemplateDirectory']
         template_fname = main_single_image(args.i, template_dir)
         print("Finished feature extraction. Starting dimensionality reduction...")
-        descriptor_DR.template_compression_single(input_file=template_fname, output_dir=template_dir,
-                                                  model_path=config['DimensionalityReductionModel'],
-                                                  isLatent=True, config=None)
-        print("Finished dimensionality reduction. Starting product quantization...")
+
+        # Note: Disable DR because models/dim_reduction/D96/Save/model_769_96D_0.10.pth seems corrupted
+        # RuntimeError: Error(s) in loading state_dict for CompNet:
+        # Missing key(s) in state_dict: "layer3.1.running_var", "layer3.1.bias", "layer3.1.running_mean". 
+
+        # descriptor_DR.template_compression_single(input_file=template_fname, output_dir=template_dir,
+        #                                           model_path=config['DimensionalityReductionModel'],
+        #                                           isLatent=True, config=None)
+        # print("Finished dimensionality reduction. Starting product quantization...")
+
         descriptor_PQ.encode_PQ_single(input_file=template_fname, output_dir=template_dir, fprint_type='latent')
         print("Finished product quantization. Exiting...")
     elif(args.idir):

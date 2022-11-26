@@ -1,3 +1,5 @@
+from past.builtins import xrange
+
 import matplotlib.pylab as plt
 import scipy.ndimage
 from skimage.filters import gabor_kernel

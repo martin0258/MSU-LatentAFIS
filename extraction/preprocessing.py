@@ -24,7 +24,7 @@ def adjust_image_size(img, block_size=16):
     ovph = 0  # (h-blkH*block_size)//2
     ovpw = 0  # (w-blkH*block_size)//2
 
-    img = img[ovph:ovph + blkH * block_size, ovpw:ovpw + blkW * block_size]
+    img = img[ovph:int(ovph + blkH * block_size), ovpw:int(ovpw + blkW * block_size)]
     return img
 
 
