@@ -1,5 +1,12 @@
+# Notice about this fork
+Main differences compared with [prip-lab/MSU-LatentAFIS](https://github.com/prip-lab/MSU-LatentAFIS/commit/6dd2dab9767dce3940689150e73b072c30ec08e1)
+1. Update code for it to work with python 3.6 
+2. Disable (comment out) dimension reduction due to missing keys in pytorch model checkpoint
+
+---
+
 # MSU Latent Automatic Fingerprint Identification System (AFIS) <img src="uploads/latent_afis.jpeg" width="50"/>
-A system for identifying latent fingerprints. **Note: This software is no longer being updated or maintained.**
+A system for identifying latent fingerprints. 
 
 Created at [Michigan State University](https://www.msu.edu) by [Anil K. Jain](https://www.cse.msu.edu/~jain/), [Kai Cao](https://scholar.google.com/citations?user=aA2HStQAAAAJ&hl=en), [Dinh-Luan Nguyen](https://luannd.github.io/), and [Cori Tymoszek](https://github.com/ctymoszek).
 This work is sponsored by [IARPA](https://www.iarpa.gov/).
@@ -20,7 +27,7 @@ This work is sponsored by [IARPA](https://www.iarpa.gov/).
 
 ## Requirements
 Feature extraction code:
-Please refer to [environment.yml](environment.yml) file
+Please refer to [requirements.txt](requirements.txt) file
 
 Matching code:
 Please install the required C++ dependencies:
